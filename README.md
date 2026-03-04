@@ -4,243 +4,489 @@
 
 **Zero-trust, client-side cryptographic toolkit**
 
-[![Vite](https://img.shields.io/badge/Vite_5-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev)
-[![React](https://img.shields.io/badge/React_18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
-[![Tailwind](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![License](https://img.shields.io/badge/License-ISC-blue?style=flat-square)](LICENSE)
+[![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Vite](https://img.shields.io/badge/Vite_5-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![React](https://img.shields.io/badge/React_18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS_3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-All cryptographic operations execute **exclusively in the browser**. Zero network calls. Zero telemetry. Zero server-side processing.
+All cryptographic operations run **100% in your browser**.  
+No servers. No network calls. No telemetry. Your data never leaves your machine.
 
-[Features](#features) · [Architecture](#architecture) · [Getting Started](#getting-started) · [Security](#security-model) · [Stack](#tech-stack)
+---
+
+[Features](#-features) · [Requirements](#-requirements) · [Installation](#-installation) · [Usage](#-usage) · [Security](#-security) · [Tech Stack](#-tech-stack) · [License](#-license)
 
 </div>
 
 ---
 
-## Features
+## 📋 Table of Contents
 
-| Module | Description | Algorithms / Modes |
-|--------|-------------|-------------------|
-| **Hash Generator** | Text & file hashing with drag-drop | MD5 · SHA-1 · SHA-224/256/384/512 · SHA3-256/512 · RIPEMD-160 |
-| **HMAC** | Keyed-hash message authentication codes | HmacMD5 · HmacSHA1/224/256/384/512 · HmacSHA3 · HmacRIPEMD160 |
-| **Compare** | Constant-visual hash comparison | Case-insensitive match with animated diff |
-| **Integrity Verify** | File checksum verification against known hashes | All 9 algorithms × file drag-drop |
-| **Encode / Decode** | Bidirectional encoding transforms | Base64 · Hex · URL |
-| **Password Lab** | Strength analysis + secure generation | `crypto.getRandomValues()` with rejection sampling (no modulo bias) |
-| **Utilities** | UUID v4 generator + text statistics | CSPRNG-backed UUID, char/word/line/byte counts |
-| **Batch Processing** | Multi-file simultaneous hashing | Parallel per-file results with bulk copy |
-| **Hash Identifier** | Algorithm detection by hash length | 6 pattern families (32/40/56/64/96/128 chars) |
+- [Features](#-features)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+  - [Windows](#windows)
+  - [macOS](#macos)
+  - [Linux (Ubuntu/Debian)](#linux-ubuntudebian)
+  - [Linux (Fedora/RHEL)](#linux-fedorarhel)
+  - [Linux (Arch)](#linux-arch)
+- [Usage](#-usage)
+  - [Development Mode](#development-mode)
+  - [Production Build](#production-build)
+  - [Production Launcher](#production-launcher)
+- [Project Structure](#-project-structure)
+- [Keyboard Shortcuts](#-keyboard-shortcuts)
+- [Security](#-security)
+- [Tech Stack](#-tech-stack)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
-## Architecture
+## ✨ Features
+
+| Tool | What It Does | Supported Algorithms |
+|------|-------------|---------------------|
+| **Hash Generator** | Hash text or files via drag-and-drop | MD5 · SHA-1 · SHA-224 · SHA-256 · SHA-384 · SHA-512 · SHA3-256 · SHA3-512 · RIPEMD-160 |
+| **HMAC** | Generate keyed-hash message authentication codes | HMAC-MD5 · HMAC-SHA1/224/256/384/512 · HMAC-SHA3 · HMAC-RIPEMD160 |
+| **Compare** | Side-by-side hash comparison | Case-insensitive match with visual diff |
+| **Integrity Verify** | Verify a file's checksum against a known hash | All 9 algorithms with file drag-and-drop |
+| **Encode / Decode** | Convert between encoding formats | Base64 · Hex · URL |
+| **Password Lab** | Analyze password strength and generate secure passwords | CSPRNG with rejection sampling (no modulo bias) |
+| **Utilities** | UUID v4 generator and text statistics | Cryptographically secure UUID, character/word/line/byte counts |
+| **Batch Process** | Hash multiple files at once | All algorithms with bulk copy |
+| **Identify Hash** | Detect which algorithm produced a hash | 6 pattern families (32 / 40 / 56 / 64 / 96 / 128 characters) |
+
+---
+
+## 📦 Requirements
+
+| Tool | Required Version | What It's For |
+|------|-----------------|---------------|
+| **Node.js** | `>= 20.x` | JavaScript build toolchain |
+| **npm** | `>= 10.x` | Package manager (comes with Node.js) |
+| **Git** | `>= 2.x` | Cloning the repository |
+| **Python** | `>= 3.10` *(optional)* | Running the production localhost launcher |
+
+---
+
+## 🚀 Installation
+
+### Windows
+
+#### 1. Install Node.js
+
+Download and run the **Windows Installer (.msi)** from the official site:
+
+👉 **https://nodejs.org/en/download** — choose the **LTS** version.
+
+During installation, make sure **"Add to PATH"** is checked.
+
+After installation, open **PowerShell** or **Command Prompt** and verify:
+
+```powershell
+node --version
+npm --version
+```
+
+#### 2. Install Git
+
+Download and run the installer from:
+
+👉 **https://git-scm.com/download/win**
+
+Use the default options. After installation, verify:
+
+```powershell
+git --version
+```
+
+#### 3. Install Python *(optional — only needed for the production launcher)*
+
+Download from:
+
+👉 **https://www.python.org/downloads/**
+
+> ⚠️ During installation, **check "Add Python to PATH"** on the first screen.
+
+Verify:
+
+```powershell
+python --version
+```
+
+#### 4. Clone and Install HashCii
+
+```powershell
+git clone https://github.com/bablerpaul/HashCii.git
+cd HashCii
+npm install
+```
+
+---
+
+### macOS
+
+#### 1. Install Homebrew *(if not already installed)*
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+#### 2. Install Node.js and Git
+
+```bash
+brew install node git
+```
+
+Verify:
+
+```bash
+node --version
+npm --version
+git --version
+```
+
+#### 3. Install Python *(optional)*
+
+macOS comes with Python 3 on recent versions. Check with:
+
+```bash
+python3 --version
+```
+
+If not present:
+
+```bash
+brew install python
+```
+
+#### 4. Clone and Install HashCii
+
+```bash
+git clone https://github.com/bablerpaul/HashCii.git
+cd HashCii
+npm install
+```
+
+---
+
+### Linux (Ubuntu/Debian)
+
+#### 1. Install Node.js (via NodeSource)
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+#### 2. Install Git
+
+```bash
+sudo apt-get install -y git
+```
+
+#### 3. Install Python *(optional)*
+
+```bash
+sudo apt-get install -y python3
+```
+
+#### 4. Verify
+
+```bash
+node --version    # Should print v20.x.x or higher
+npm --version     # Should print 10.x.x or higher
+git --version
+python3 --version # Optional
+```
+
+#### 5. Clone and Install HashCii
+
+```bash
+git clone https://github.com/bablerpaul/HashCii.git
+cd HashCii
+npm install
+```
+
+---
+
+### Linux (Fedora/RHEL)
+
+#### 1. Install Node.js
+
+```bash
+sudo dnf install -y nodejs
+```
+
+Or use NodeSource for the latest LTS:
+
+```bash
+curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+sudo dnf install -y nodejs
+```
+
+#### 2. Install Git and Python
+
+```bash
+sudo dnf install -y git python3
+```
+
+#### 3. Clone and Install HashCii
+
+```bash
+git clone https://github.com/bablerpaul/HashCii.git
+cd HashCii
+npm install
+```
+
+---
+
+### Linux (Arch)
+
+#### 1. Install All Dependencies
+
+```bash
+sudo pacman -S nodejs npm git python
+```
+
+#### 2. Clone and Install HashCii
+
+```bash
+git clone https://github.com/bablerpaul/HashCii.git
+cd HashCii
+npm install
+```
+
+---
+
+## 🎮 Usage
+
+### Development Mode
+
+Start the Vite dev server with hot module replacement:
+
+```bash
+npm run dev
+```
+
+Open **http://127.0.0.1:5173** in your browser.
+
+### Production Build
+
+Build optimized static files into the `dist/` folder:
+
+```bash
+npm run build
+```
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+### Production Launcher
+
+The Python launcher starts a localhost-only HTTP server and opens the app in your browser.
+
+**Windows:**
+
+```powershell
+.\start.bat
+```
+
+**macOS / Linux:**
+
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+**With options:**
+
+```bash
+# Choose a specific port
+python launcher.py --port 8080
+
+# Choose a specific browser
+python launcher.py --browser chrome
+python launcher.py --browser firefox
+
+# Start server without opening browser
+python launcher.py --no-open
+```
+
+The launcher will:
+- Bind **only to `127.0.0.1`** (not accessible from other machines)
+- Auto-select the next available port if the default is in use
+- Prompt you to choose from your installed browsers
+
+---
+
+## 🗂️ Project Structure
 
 ```
-hashcii/
-├── index.html               # Vite entry — CSP + security meta headers
-├── vite.config.js            # Build config (esbuild minification)
-├── tailwind.config.js        # Custom design system tokens
+HashCii/
+├── index.html               # Vite entry point with CSP meta tags
+├── vite.config.js            # Vite build configuration
+├── tailwind.config.js        # Tailwind CSS theme & design tokens
 ├── postcss.config.js         # PostCSS pipeline
-├── launcher.py               # Localhost-only server with security headers
-├── start.bat / start.sh      # OS-native launchers
+├── package.json              # Dependencies and scripts
+├── launcher.py               # Production localhost server
+├── start.bat                 # Windows launcher script
+├── start.sh                  # macOS/Linux launcher script
+├── LICENSE                   # MIT License
 ├── src/
 │   ├── main.jsx              # React 18 entry (StrictMode)
-│   ├── App.jsx               # Root router + keyboard shortcut system
-│   ├── index.css             # Tailwind directives + glassmorphism layers
+│   ├── App.jsx               # Root component with tab routing
+│   ├── index.css             # Tailwind + custom styles
 │   ├── components/
-│   │   ├── Hero.jsx          # Landing page (Framer Motion spring physics)
-│   │   ├── Nav.jsx           # Animated navbar with layoutId tab indicator
-│   │   ├── ChooseDashboard.jsx # Tool selector grid with staggered entry
-│   │   ├── Toast.jsx         # Notification system (auto-dismiss)
-│   │   ├── Icon.jsx          # 20+ SVG icon paths
-│   │   └── Shared.jsx        # Card, FileDropzone, ErrorBanner, Spinner
+│   │   ├── Hero.jsx          # Landing page with animations
+│   │   ├── Nav.jsx           # Navigation bar
+│   │   ├── ChooseDashboard.jsx  # Tool selector grid
+│   │   ├── Toast.jsx         # Notification component
+│   │   ├── Icon.jsx          # SVG icon library
+│   │   └── Shared.jsx        # Reusable UI components
 │   ├── tabs/
 │   │   ├── GeneratorTab.jsx  # Hash generation
 │   │   ├── HMACTab.jsx       # HMAC computation
 │   │   ├── CompareTab.jsx    # Hash comparison
 │   │   ├── IntegrityTab.jsx  # File verification
-│   │   ├── EncodeTab.jsx     # Encoding/decoding
-│   │   ├── PasswordTab.jsx   # Password analysis + generation
-│   │   ├── ToolsTab.jsx      # UUID + text statistics
-│   │   ├── BatchTab.jsx      # Multi-file processing
-│   │   └── IdentifyTab.jsx   # Hash type identification
+│   │   ├── EncodeTab.jsx     # Encode/Decode
+│   │   ├── PasswordTab.jsx   # Password tools
+│   │   ├── ToolsTab.jsx      # UUID + text stats
+│   │   ├── BatchTab.jsx      # Multi-file hashing
+│   │   └── IdentifyTab.jsx   # Hash identification
 │   └── utils/
-│       ├── constants.js      # Algorithm definitions, patterns, limits
-│       └── crypto.js         # All crypto + validation + sanitization logic
-└── dist/                     # Production build output
+│       ├── constants.js      # Algorithm definitions & limits
+│       └── crypto.js         # Crypto, validation & sanitization
+└── dist/                     # Build output (generated)
 ```
-
-### Data Flow
-
-```
-User Input → Validation → CryptoJS (in-browser) → Rendered Output
-     ↓                                                    ↓
-  FileReader API                                   Clipboard API
-  (ArrayBuffer)                                    (secure context)
-```
-
-**No data leaves the browser.** There are no `fetch()`, `XMLHttpRequest`, `WebSocket`, `navigator.sendBeacon()`, or any network API calls in the codebase.
 
 ---
 
-## Getting Started
-
-### Prerequisites
-
-| Tool | Version | Purpose |
-|------|---------|---------|
-| Node.js | ≥ 20.x | Build toolchain |
-| npm | ≥ 10.x | Package management |
-| Python | ≥ 3.10 | Production launcher (optional) |
-
-### Development
-
-```bash
-# Install dependencies
-npm install
-
-# Start dev server (HMR enabled)
-npm run dev
-# → http://127.0.0.1:5173
-
-# Production build
-npm run build
-# → dist/
-```
-
-### Production (localhost)
-
-```bash
-# Windows
-start.bat
-
-# macOS / Linux
-chmod +x start.sh && ./start.sh
-
-# Direct Python launch
-python launcher.py --port 8080 --browser chrome
-python launcher.py --no-open     # server only, no browser
-```
-
-### Keyboard Shortcuts
+## ⌨️ Keyboard Shortcuts
 
 | Key | Action |
 |-----|--------|
-| `1` – `9` | Jump to tool tab |
-| `Esc` | Return to dashboard |
+| `1` | Hash Generator |
+| `2` | HMAC |
+| `3` | Compare |
+| `4` | Integrity Verify |
+| `5` | Encode / Decode |
+| `6` | Password Lab |
+| `7` | Utilities |
+| `8` | Batch Process |
+| `9` | Identify Hash |
+| `Esc` | Back to Dashboard |
 
 ---
 
-## Security Model
+## 🔒 Security
 
-### Threat Model
+### Architecture
 
-HashCii operates as a **zero-trust, air-gapped client application**. The security model assumes:
+HashCii is a **zero-trust, air-gapped** application:
 
-- All computation is local — no backend, no API, no cloud
-- The only network requests are font loading (Google Fonts via CSP-whitelisted origin)
-- The localhost server binds exclusively to `127.0.0.1` — no LAN/WAN exposure
+- **No backend** — all computation happens in the browser
+- **No network calls** — there are zero `fetch()`, `XMLHttpRequest`, or `WebSocket` calls in the codebase
+- **No telemetry** — no analytics, tracking, or data collection
+- **Localhost only** — the Python launcher binds to `127.0.0.1`, not accessible from other machines
 
-### Implemented Controls
+### Content Security Policy
 
-#### Content Security Policy (CSP)
+The app ships with a strict CSP that blocks all external connections:
 
 ```
-default-src 'self';
-script-src 'self';
-style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-font-src https://fonts.gstatic.com;
-img-src 'self' data:;
-connect-src 'none';
-frame-src 'none';
-object-src 'none';
-base-uri 'self';
-form-action 'none';
+default-src 'self'; script-src 'self'; connect-src 'none';
+frame-src 'none'; object-src 'none'; form-action 'none';
 ```
 
-#### HTTP Security Headers (launcher.py)
+### HTTP Security Headers
+
+The production launcher injects these headers on every response:
 
 | Header | Value |
 |--------|-------|
-| `X-Content-Type-Options` | `nosniff` |
-| `X-Frame-Options` | `DENY` |
-| `Referrer-Policy` | `no-referrer` |
-| `Cache-Control` | `no-store, no-cache, must-revalidate` |
-| `Permissions-Policy` | `camera=(), microphone=(), geolocation=(), payment=()` |
-| `X-Permitted-Cross-Domain-Policies` | `none` |
+| X-Content-Type-Options | `nosniff` |
+| X-Frame-Options | `DENY` |
+| Referrer-Policy | `no-referrer` |
+| Cache-Control | `no-store, no-cache, must-revalidate` |
+| Permissions-Policy | `camera=(), microphone=(), geolocation=(), payment=()` |
 
-#### Input Validation & Sanitization
-
-| Control | Implementation |
-|---------|---------------|
-| Text input limit | 1,000,000 characters (`MAX_TEXT_LENGTH`) |
-| File size limit | 500 MB (`MAX_FILE_SIZE`) |
-| Hash input limit | 256 characters (Compare / Identify tabs) |
-| HTML entity escaping | `& < > " '` → entity-encoded via `sanitize()` |
-| Clipboard | `navigator.clipboard` with `execCommand` fallback |
-
-#### Cryptographic Security
+### Crypto Security
 
 | Feature | Implementation |
 |---------|---------------|
-| UUID v4 | `crypto.getRandomValues()` — CSPRNG, not `Math.random()` |
-| Password generation | Rejection sampling to eliminate modulo bias |
-| Hash computation | CryptoJS 4.2.0 (deterministic, no network) |
-| HMAC | CryptoJS HMAC with secret key isolation |
+| UUID v4 | `crypto.getRandomValues()` (CSPRNG) |
+| Password generation | Rejection sampling — no modulo bias |
+| Input sanitization | HTML entity encoding for `& < > " '` |
+| Input limits | Text: 1M chars, Files: 500 MB, Hashes: 256 chars |
 
-### Audit Results
+### Audit Status
 
-| Check | Status |
+| Check | Result |
 |-------|--------|
-| `eval()` / `innerHTML` / dynamic code execution | ✅ Not found |
-| Hardcoded secrets / API keys / tokens | ✅ Not found |
-| `fetch()` / `XMLHttpRequest` / `WebSocket` | ✅ Not found |
-| `Math.random()` in security contexts | ✅ Eliminated |
-| Modulo bias in random generation | ✅ Fixed (rejection sampling) |
-| XSS via unsanitized rendering | ✅ All user input sanitized |
-| Supply chain (CDN scripts) | ✅ Eliminated (npm + bundled) |
-| In-browser Babel transpilation | ✅ Eliminated (Vite precompilation) |
-
-### Residual Risk Register
-
-| Risk | Severity | Mitigation |
-|------|----------|------------|
-| npm dependency supply chain | Medium | Lock file present, audit regularly |
-| Google Fonts external load | Low | Whitelisted via CSP, font-display swap |
-| No SRI on Google Fonts | Low | Consider self-hosting fonts for airgap |
-| No automated SAST/SCA pipeline | Medium | Manual audit completed; CI recommended |
+| `eval()` / `innerHTML` / dynamic execution | ✅ None found |
+| Hardcoded secrets or API keys | ✅ None found |
+| Network API calls | ✅ None found |
+| `Math.random()` in security contexts | ✅ Replaced with CSPRNG |
+| Modulo bias in random generation | ✅ Fixed with rejection sampling |
+| CDN-loaded scripts (supply chain risk) | ✅ Eliminated — all bundled via npm |
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
-| **Build** | Vite 5 | ES module bundler, HMR, esbuild minification |
-| **UI** | React 18 | Component architecture, StrictMode |
-| **Styling** | Tailwind CSS 3 | Utility-first CSS, custom design tokens |
-| **Animation** | Framer Motion | Spring physics, `layoutId`, `AnimatePresence` |
-| **Crypto** | CryptoJS 4.2.0 | Hash / HMAC / encoding operations |
-| **Fonts** | Space Grotesk / Syne / JetBrains Mono | Body / Display / Monospace |
-| **Server** | Python `http.server` | Localhost-only with security headers |
-
-### Design System
-
-- **Theme**: Dark mode with glassmorphism, mesh gradients, noise texture overlay
-- **Colors**: Custom `surface` (zinc-based), `accent` (indigo), `neon` palette
-- **Animations**: 6 custom keyframes — `gradient`, `float`, `glowPulse`, `slideUp`, `morph`, `shimmer`
-- **Components**: Spring-physics page transitions, staggered grid entries, sliding tab indicator
-
-### Build Output
-
-```
-dist/index.html          ~1.2 KB
-dist/assets/index.css    ~30 KB  (6 KB gzipped)
-dist/assets/index.js    ~437 KB  (142 KB gzipped)
-```
+| Build | [Vite 5](https://vitejs.dev) | Module bundler with HMR and esbuild minification |
+| UI | [React 18](https://react.dev) | Component architecture with StrictMode |
+| Styling | [Tailwind CSS 3](https://tailwindcss.com) | Utility-first CSS with custom design tokens |
+| Animation | [Framer Motion](https://www.framer.com/motion/) | Spring physics, layout animations |
+| Crypto | [CryptoJS 4.2.0](https://github.com/brix/crypto-js) | Hash, HMAC, and encoding functions |
+| Fonts | Google Fonts | Space Grotesk · Syne · JetBrains Mono |
+| Server | Python `http.server` | Localhost-only with security headers |
 
 ---
 
-## License
+## 🤝 Contributing
 
-ISC
+Contributions are welcome! Here's how:
+
+1. **Fork** the repository
+2. **Create a branch** for your feature:
+   ```bash
+   git checkout -b feature/my-feature
+   ```
+3. **Make your changes** and commit:
+   ```bash
+   git commit -m "feat: add my feature"
+   ```
+4. **Push** to your fork:
+   ```bash
+   git push origin feature/my-feature
+   ```
+5. **Open a Pull Request** on GitHub
+
+Please make sure:
+- The project builds without errors (`npm run build`)
+- No new security vulnerabilities are introduced
+- Code follows the existing style conventions
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+You are free to use, modify, and distribute this software for any purpose.
+
+---
+
+<div align="center">
+
+Made with ❤️ by [bablerpaul](https://github.com/bablerpaul)
+
+</div>
