@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Icon from './Icon';
 
 const letters = 'HashCii'.split('');
 
 export default function Hero({ onStart }) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
 
   return (
     <section className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">

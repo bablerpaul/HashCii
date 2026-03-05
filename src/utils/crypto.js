@@ -20,6 +20,19 @@ export const validateHex = (str) => /^[0-9a-fA-F]*$/.test(str);
 /* ── SANITIZATION ── */
 export const sanitize = (s) => typeof s !== 'string' ? '' : s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+/* ── CONSTANT-TIME COMPARISON ── */
+export const timingSafeCompare = (a, b) => {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const la = a.toLowerCase();
+  const lb = b.toLowerCase();
+  const len = Math.max(la.length, lb.length);
+  let diff = la.length ^ lb.length;
+  for (let i = 0; i < len; i++) {
+    diff |= (la.charCodeAt(i % la.length) || 0) ^ (lb.charCodeAt(i % lb.length) || 0);
+  }
+  return diff === 0;
+};
+
 /* ── CLIPBOARD ── */
 export const copyToClipboard = async (text) => {
   if (navigator.clipboard && window.isSecureContext) {

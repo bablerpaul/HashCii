@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '../components/Icon';
 import { Card, ErrorBanner, TabHeader } from '../components/Shared';
+import { timingSafeCompare } from '../utils/crypto';
 
 export default function CompareTab({ toast }) {
   const [h1, setH1] = useState('');
@@ -12,7 +13,7 @@ export default function CompareTab({ toast }) {
   const compare = () => {
     setError('');
     if (!h1 || !h2) { setError('Enter both hashes'); return; }
-    const match = h1.toLowerCase().trim() === h2.toLowerCase().trim();
+    const match = timingSafeCompare(h1.trim(), h2.trim());
     setResult(match);
     toast(match ? 'Match!' : 'No match', match ? 'success' : 'error');
   };

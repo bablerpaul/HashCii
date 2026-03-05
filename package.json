@@ -1,6 +1,6 @@
 {
   "name": "hashcii",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "HashCii is a client-side cryptographic utility suite that runs locally in a browser and exposes hash generation, HMAC operations, integrity verification, encoding/decoding, password analysis, batch hashing, and hash-type identification.",
   "type": "module",
   "scripts": {

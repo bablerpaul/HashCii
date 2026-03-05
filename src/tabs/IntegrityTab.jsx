@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '../components/Icon';
 import { Card, FileDropzone, ErrorBanner, TabHeader, Spinner } from '../components/Shared';
 import { ALGORITHMS } from '../utils/constants';
-import { computeHash, readFile } from '../utils/crypto';
+import { computeHash, readFile, timingSafeCompare } from '../utils/crypto';
 
 export default function IntegrityTab({ toast }) {
   const [file, setFile] = useState(null);
@@ -20,7 +20,7 @@ export default function IntegrityTab({ toast }) {
       setLoading(true);
       const data = await readFile(file);
       const computed = computeHash(data, algo);
-      const match = computed.toLowerCase() === expected.toLowerCase().trim();
+      const match = timingSafeCompare(computed, expected.trim());
       setResult({ computed, match });
       toast(match ? 'Verified!' : 'Mismatch', match ? 'success' : 'error');
     } catch (e) {
@@ -43,7 +43,7 @@ export default function IntegrityTab({ toast }) {
       <Card>
         <label className="text-sm font-medium text-surface-300 mb-3 block">Expected Hash</label>
         <textarea value={expected} onChange={e => { setExpected(e.target.value); setError(''); }} placeholder="Paste expected hash..."
-          className="input-field h-20 resize-none" />
+          className="input-field h-20 resize-none" maxLength={256} />
       </Card>
       <Card>
         <label className="text-sm font-medium text-surface-300 mb-3 block">Algorithm</label>

@@ -5,6 +5,7 @@ import Nav from './components/Nav';
 import Hero from './components/Hero';
 import ChooseDashboard from './components/ChooseDashboard';
 import Toast from './components/Toast';
+import BrowserSelector from './components/BrowserSelector';
 
 import GeneratorTab from './tabs/GeneratorTab';
 import HMACTab from './tabs/HMACTab';
@@ -21,6 +22,7 @@ const TAB_IDS = ['generator', 'hmac', 'compare', 'integrity', 'encode', 'passwor
 export default function App() {
   const [tab, setTab] = useState('home');
   const [toastMsg, setToastMsg] = useState(null);
+  const [showBrowserSelector, setShowBrowserSelector] = useState(false);
 
   const toast = useCallback((msg, type = 'success') => {
     setToastMsg({ msg, type, id: Date.now() });
@@ -63,13 +65,20 @@ export default function App() {
 
       {/* Navigation — only when not on the hero/home */}
       <AnimatePresence>
-        {tab !== 'home' && <Nav tab={tab} setTab={setTab} />}
+        {tab !== 'home' && <Nav tab={tab} setTab={setTab} onOpenBrowserSettings={() => setShowBrowserSelector(true)} />}
       </AnimatePresence>
 
       {/* Toast */}
       <AnimatePresence>
         {toastMsg && <Toast key={toastMsg.id} message={toastMsg.msg} type={toastMsg.type} onDone={() => setToastMsg(null)} />}
       </AnimatePresence>
+
+      {/* Browser selector modal */}
+      <BrowserSelector
+        isOpen={showBrowserSelector}
+        onClose={() => setShowBrowserSelector(false)}
+        toast={toast}
+      />
 
       {/* Page content */}
       <main className={tab !== 'home' ? 'pt-20 pb-12 px-4' : ''}>
